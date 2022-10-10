@@ -29,5 +29,5 @@ $(PROJETO):
 clean:
 	rm -rf *.o $(PROJETO)
 
-run: $(PROJETO)
-	./$(PROJETO)
+run: $(PROJETO) teste.por
+	./$(PROJETO) < teste.por
