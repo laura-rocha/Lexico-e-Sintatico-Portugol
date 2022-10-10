@@ -195,3 +195,44 @@ const char *alfabeto ={'\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07', '
 const int estadosFinais[qtdEstadosFinais] = {55, 128, 75, 158, 21, 30, 134, 100, 72, 60, 4, 120, 46, 16, 132, 145, 66, 27, 77, 174, 19, 152, 82, 8, 137, 169, 62, 58, 54, 159, 38, 172, 114, 90, 76, 96, 142, 170, 3, 84, 40, 103, 47, 150, 51, 176, 26, 71, 5, 164, 154, 93, 20, 110, 13, 129, 23, 168, 92, 65, 79, 11, 135, 22, 160, 117, 43, 108, 29, 102, 28, 44, 111, 35, 91, 63, 155, 68, 167, 39, 173, 130, 107, 125, 34, 123, 33, 147, 121, 161, 73, 143, 48, 42, 148, 118, 24, 138, 112, 166, 139, 37, 140, 53, 171, 109, 119, 64, 97, 2, 32, 141, 156, 124, 106, 87, 56, 99, 153, 122, 88, 17, 80, 83, 12, 49, 149, 61, 136, 78, 7, 133, 151, 115, 69, 10, 52, 113, 162, 94, 144, 18, 59, 95, 25, 74, 31, 70, 57, 50, 36, 67, 116, 127, 104, 14, 175, 6, 41, 85, 89, 165, 81, 98, 15, 86, 146, 9, 101};
 
 const char tokens[qtdEstadosFinais][30] =  {"identificador", "identificador", "identificador", "identificador", "e", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "numero inteiro", "\n", "divisão", "ponto e vírgula", "vírgula", "dois pontos", "ponto", "abre colchetes", "fecha colchetes", "abre parênteses", "fecha parênteses", "igual", "menor", "maior", "mais", "menos", "vezes", "string", "identificador", "identificador", "identificador", "de", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "ou", "identificador", "identificador", "identificador", "se", "identificador", "identificador", "identificador", "numero real", "comentário de bloco", "comentário de linha", "diferente", "atribuição", "menor igual", "maior igual", "ate", "identificador", "identificador", "div", "identificador", "identificador", "identificador", "identificador", "fim", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "nao", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "char", "identificador", "identificador", "identificador", "identificador", "identificador", "faca", "identificador", "identificador", "identificador", "identificador", "leia", "identificador", "identificador", "para", "identificador", "identificador", "real", "identificador", "identificador", "tipo", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "entao", "falso", "identificador", "identificador", "identificador", "identificador", "identificador", "identificador", "passo", "identificador", "identificador", "senao", "vetor", "identificador", "identificador", "identificador", "identificador", "identificador", "funcao", "identificador", "inicio", "identificador", "logico", "matriz", "identificador", "repita", "identificador", "identificador", "identificador", "identificador", "identificador", "inteiro", "imprima", "identificador", "identificador", "identificador", "identificador", "identificador", "enquanto", "identificador", "identificador", "identificador", "algoritmo", "caractere", "identificador", "identificador", "variaveis", "identificador", "verdadeiro", "identificador", "procedimento"};
+
+int indiceSimbolo(char c);
+int estadoFinal(int estado);
+int indiceEstadoFinal(int estado);
+void pularLinha();
+
+int main(){
+
+	return EXIT_SUCCESS;
+}
+
+int indiceSimbolo(char c){ //retorna o índice que representa o símbolo do alfabeto na matriz de transições
+
+    if(strchr(alfabeto, c) == NULL)
+        return -1;                                 //caso o caractere c não pertença ao alfabeto
+    
+    return (strchr(alfabeto, c) - alfabeto);
+}
+
+int estadoFinal(int estado){ //retorna 1 se o estado é final e 0 se não é
+    for(int i = 0; i < qtdEstadosFinais; i++){
+        if(estadosFinais[i] == estado)
+            return 1;
+    }
+    return 0;
+}
+
+int indiceEstadoFinal(int estado){ //retorna 0 se o estado não é final e sua posição, se é
+    for(int i = 0; i < qtdEstadosFinais; i++){
+        if(estadosFinais[i] == estado)
+            return i;
+    }
+    return -1;
+}
+
+void pularLinha(){
+    if(pulaLinha){
+        printf("\n");
+    }
+    pulaLinha = 1;
+}
