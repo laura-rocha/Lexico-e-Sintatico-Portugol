@@ -209,6 +209,7 @@ int indiceSimbolo(char c);
 int estadoFinal(int estado);
 int indiceEstadoFinal(int estado);
 void pularLinha();
+void resetaEstados(int *i, int *inicioToken, int *fimToken, int *estadoAtual, int *ultimoEstadoFinal);
 
 int main(){
 
@@ -234,26 +235,28 @@ int main(){
 					pularLinha();
 					cout << "ERRO";
 					i = inicioToken + 1;
-					inicioToken = i;
-					fimToken = i;
-					estadoAtual = 1;
-					ultimoEstadoFinal = 0;
+					resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 					continue;
 				}
 			}
 			break;
 		}
 		c = entrada[i];
+		if ((estadoAtual == 141 && c == ' ') || //string
+			(c == ' ' && ultimoEstadoFinal == 131) || //comentário de linha
+			((c == '\n' || c == ' ') && ultimoEstadoFinal == 171)){ //comentário de bloco
+			i++;
+			continue;
+		}
+		//cout << "c: " << c << " estadoAtual: " << estadoAtual << "ultimoEstadoFInal: " << ultimoEstadoFinal << endl;
 		posic = indiceSimbolo(c);
 
 		if(posic == -1 || c == ' ' || c == '\n'){ //caractere atual não pertence ao alfabeto
 			if(ultimoEstadoFinal != 0){ //foi identificado um token até então
 				pularLinha();
 				cout << tokens[indiceEstadoFinal(ultimoEstadoFinal)];
-				inicioToken = i;
-				fimToken = i;
-				estadoAtual = 1;
-				ultimoEstadoFinal = 0;
+				//cout << "ultimoEstadoFInal: " << ultimoEstadoFinal;
+				resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 				continue;
 			}
 			else{ //erro
@@ -262,10 +265,7 @@ int main(){
 					cout << "ERRO";
 				}
 				i = inicioToken + 1;
-				inicioToken = i;
-				fimToken = i;
-				estadoAtual = 1;
-				ultimoEstadoFinal = 0;
+				resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 				continue;
 			}
 		}
@@ -275,10 +275,8 @@ int main(){
 				if(ultimoEstadoFinal != 0){ //foi identificado um token até o caractere anterior
 					pularLinha();
 					cout << tokens[indiceEstadoFinal(ultimoEstadoFinal)];
-					inicioToken = i;
-					fimToken = i;
-					estadoAtual = 1;
-					ultimoEstadoFinal = 0;
+					//cout << "ultimoEstadoFInal: " << ultimoEstadoFinal;
+					resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 					continue;
 				}
 				else{ //erro
@@ -288,10 +286,7 @@ int main(){
 						i = inicioToken + 1;
 					else
 						i++;
-					inicioToken = i;
-					fimToken = i;
-					estadoAtual = 1;
-					ultimoEstadoFinal = 0;
+					resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 					continue;
 				}
 			}
@@ -305,7 +300,6 @@ int main(){
 		i++;
 	}
 	
-
 	return EXIT_SUCCESS;
 }
 
@@ -338,4 +332,11 @@ void pularLinha(){
         printf("\n");
     }
     pulaLinha = 1;
+}
+
+void resetaEstados(int *i, int *inicioToken, int *fimToken, int *estadoAtual, int *ultimoEstadoFinal){
+	*(inicioToken) = *(i);
+	*(fimToken) = *(i);
+	*(estadoAtual) = 1;
+	*(ultimoEstadoFinal) = 0;
 }
