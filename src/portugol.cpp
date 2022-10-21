@@ -222,6 +222,7 @@ int main(){
 	char c;
 
 	std::getline(std::cin, entrada, eof);
+	//entrada = "\n\"oi\nmu\"";
 		
 	while(1){ //percorrendo caractere por caractere
 		
@@ -242,16 +243,22 @@ int main(){
 			break;
 		}
 		c = entrada[i];
+		if(c == '\n' && estadoAtual == 1){ //fim de linha
+			i++;
+			resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
+			continue;
+		}  
 		if ((estadoAtual == 141 && c == ' ') || //string
 			(c == ' ' && ultimoEstadoFinal == 131) || //comentário de linha
 			((c == '\n' || c == ' ') && ultimoEstadoFinal == 171)){ //comentário de bloco
 			i++;
 			continue;
 		}
-		//cout << "c: " << c << " estadoAtual: " << estadoAtual << "ultimoEstadoFInal: " << ultimoEstadoFinal << endl;
+		//cout << "c: " << c << " estadoAtual: " << estadoAtual << " ultimoEstadoFInal: " << //ultimoEstadoFinal << endl;
 		posic = indiceSimbolo(c);
 
-		if(posic == -1 || c == ' ' || c == '\n'){ //caractere atual não pertence ao alfabeto
+		if(posic == -1 || c == ' '){ //caractere atual não pertence ao alfabeto
+			//cout << "entrei aqui" << endl;
 			if(ultimoEstadoFinal != 0){ //foi identificado um token até então
 				pularLinha();
 				cout << tokens[indiceEstadoFinal(ultimoEstadoFinal)];
@@ -263,6 +270,7 @@ int main(){
 				if(c != ' ' && c != '\n'){
 					pularLinha();
 					cout << "ERRO";
+					i++;
 				}
 				i = inicioToken + 1;
 				resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
