@@ -9,7 +9,9 @@ using namespace std;
 #define qtdEstadosFinais 173
 #define tamanhoAlfabeto 127
 
-int pulaLinha = 0;	
+int pulaLinha = 0;
+int linha = 1;
+int coluna = 1;
 
 const int transicoes[qtdEstadosFinais][tamanhoAlfabeto] =  {
 	 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 	/* 0 	// */ 
@@ -210,6 +212,8 @@ int estadoFinal(int estado);
 int indiceEstadoFinal(int estado);
 void pularLinha();
 void resetaEstados(int *i, int *inicioToken, int *fimToken, int *estadoAtual, int *ultimoEstadoFinal);
+void incrementaLinha();
+void incrementaColuna();
 
 int main(){
 
@@ -221,8 +225,8 @@ int main(){
     int posic, i = 0;
 	char c;
 
-	std::getline(std::cin, entrada, eof);
-	//entrada = "\n\"oi\nmu\"";
+	//std::getline(std::cin, entrada, eof);
+	entrada = "    imp(F(N,{erro lexico} #));";
 		
 	while(1){ //percorrendo caractere por caractere
 		
@@ -234,7 +238,11 @@ int main(){
 			else{
 				if(estadoAtual != 1){
 					pularLinha();
-					cout << "ERRO";
+					cout << "ERRO LEXICO. Linha: " << linha << " Coluna: " << coluna;
+					if(c == '\n')
+						incrementaLinha();
+					else
+						incrementaColuna();
 					i = inicioToken + 1;
 					resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 					continue;
@@ -242,9 +250,13 @@ int main(){
 			}
 			break;
 		}
+		
 		c = entrada[i];
+		//cout << " c: " << c;
+
 		if(c == '\n' && estadoAtual == 1){ //fim de linha
 			i++;
+			incrementaLinha();
 			resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 			continue;
 		}  
@@ -252,26 +264,31 @@ int main(){
 			(c == ' ' && ultimoEstadoFinal == 131) || //comentário de linha
 			((c == '\n' || c == ' ') && ultimoEstadoFinal == 171)){ //comentário de bloco
 			i++;
+			if(c == '\n')
+				incrementaLinha();
+			else
+				incrementaColuna();
 			continue;
 		}
-		//cout << "c: " << c << " estadoAtual: " << estadoAtual << " ultimoEstadoFInal: " << //ultimoEstadoFinal << endl;
+	
 		posic = indiceSimbolo(c);
 
 		if(posic == -1 || c == ' '){ //caractere atual não pertence ao alfabeto
-			//cout << "entrei aqui" << endl;
 			if(ultimoEstadoFinal != 0){ //foi identificado um token até então
 				pularLinha();
 				cout << tokens[indiceEstadoFinal(ultimoEstadoFinal)];
-				//cout << "ultimoEstadoFInal: " << ultimoEstadoFinal;
 				resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 				continue;
 			}
 			else{ //erro
 				if(c != ' ' && c != '\n'){
 					pularLinha();
-					cout << "ERRO";
-					i++;
+					cout << "ERRO LEXICO. Linha: " << linha << " Coluna: " << coluna;
 				}
+				if(c == '\n')
+					incrementaLinha();
+				else
+					incrementaColuna();
 				i = inicioToken + 1;
 				resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 				continue;
@@ -283,17 +300,17 @@ int main(){
 				if(ultimoEstadoFinal != 0){ //foi identificado um token até o caractere anterior
 					pularLinha();
 					cout << tokens[indiceEstadoFinal(ultimoEstadoFinal)];
-					//cout << "ultimoEstadoFInal: " << ultimoEstadoFinal;
 					resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 					continue;
 				}
 				else{ //erro
 					pularLinha();
-					cout << "ERRO";
-					if(i - inicioToken > 0) //erro de + 1 caractere{
-						i = inicioToken + 1;
+					cout << "ERRO LEXICO. Linha: " << linha << " Coluna: " << coluna;
+					if(c == '\n')
+						incrementaLinha();
 					else
-						i++;
+						incrementaColuna();
+					i = inicioToken + 1;
 					resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 					continue;
 				}
@@ -305,9 +322,15 @@ int main(){
 				}
 			}
 		}
+		if(entrada[i] == '\n')
+			incrementaLinha();
+		else{
+			//cout << "c: |" << entrada[i] << "|" << endl;
+			incrementaColuna();
+		}
+			
 		i++;
 	}
-	
 	return EXIT_SUCCESS;
 }
 
@@ -347,4 +370,13 @@ void resetaEstados(int *i, int *inicioToken, int *fimToken, int *estadoAtual, in
 	*(fimToken) = *(i);
 	*(estadoAtual) = 1;
 	*(ultimoEstadoFinal) = 0;
+}
+
+void incrementaLinha(){
+	linha += + 1;
+	coluna = 0;
+}
+
+void incrementaColuna(){
+	coluna += 1;
 }

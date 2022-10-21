@@ -1,6 +1,8 @@
-"oi 
-mundo";
-89.2
-{laura abc //lala
-laurinha} 235
-la@ura
+la #ra
+{
+        O proximo comando possui
+        um erro lexico no parametro
+        da chamada da funcao.
+    }
+    imprima(Fat(N,{erro lexico} #));
+Fim.
