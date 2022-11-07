@@ -7,7 +7,7 @@ int estadoAtual = 1;
 int fimToken = 0;
 int ultimoEstadoFinal = 0;
 int i = 0;
-int pulaLinha = 0;
+
 int linha = 1;
 int coluna = 1;
 

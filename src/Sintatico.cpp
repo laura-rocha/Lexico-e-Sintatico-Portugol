@@ -685,6 +685,16 @@ void Sintatico::List2(){
 			comparaToken(PONTO_E_VIRGULA);
 			List();
 			break; 
+		case ATRIBUICAO:
+			comparaToken(ATRIBUICAO);
+			Expressao();
+			comparaToken(PONTO_E_VIRGULA);
+			List();
+			break;
+		case PONTO_E_VIRGULA:
+			comparaToken(PONTO_E_VIRGULA);
+			List();
+			break;
 		default:
 			erroToken();
 	}
