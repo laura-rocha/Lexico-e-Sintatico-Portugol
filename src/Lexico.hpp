@@ -2,6 +2,11 @@
 #define CLASSE_LEXICO
 
 #include <string>
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <sstream>
 using namespace std;
 
 #define IDENTIFICADOR 0

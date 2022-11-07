@@ -1,9 +1,4 @@
 #include "Lexico.hpp"
-#include <iostream>
-#include <string>
-#include <cstring>
-#include <vector>
-#include <sstream>
 
 using namespace std;
 
@@ -215,9 +210,12 @@ int Lexico::getToken(string entrada){
     
     while(1){ //percorrendo o token atual
         
-        if(i == static_cast<int>(entrada.size())){
+        if(i > static_cast<int>(entrada.size()))
+			return -1;
+		if(i == static_cast<int>(entrada.size())){
 			if(ultimoEstadoFinal != 0){ //foi identificado um token até o caractere anterior
                 token = codigoToken(ultimoEstadoFinal);
+				i++;
 			}
 			else{
 				if(estadoAtual != 1){
@@ -228,8 +226,8 @@ int Lexico::getToken(string entrada){
 						incrementaColuna();
 					i = inicioToken + 1;
 					resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
-                    return -1;
 				}
+				return -1;
 			}
 			break;
 		}
