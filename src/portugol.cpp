@@ -9,5 +9,7 @@ int main(){
 	sintatico.iniciaVariaveisGlobais();
 	sintatico.Programa();
 
+	cout << "PROGRAMA CORRETO.";
+
 	return EXIT_SUCCESS;
 }

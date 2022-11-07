@@ -78,6 +78,8 @@ class Lexico{
         void resetaEstados(int *i, int *inicioToken, int *fimToken, int *estadoAtual, int *ultimoEstadoFinal);
         void incrementaLinha();
         void incrementaColuna();
+        int getColuna();
+        int getLinha();
 };
 
 #endif /* CLASSE_LEXICO */

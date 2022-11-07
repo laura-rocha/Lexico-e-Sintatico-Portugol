@@ -12,8 +12,6 @@ void Sintatico::iniciaVariaveisGlobais(){
 	ultimoToken = lexico.getToken(entrada);
 	while(ultimoToken == COMENTARIO_DE_BLOCO || ultimoToken == COMENTARIO_DE_LINHA || ultimoToken == NOVA_LINHA)
 		ultimoToken = lexico.getToken(entrada);
-	
-	cout << "PrimeiroToken: " << ultimoToken;
 }
 
 int Sintatico::getLastToken(){
@@ -32,7 +30,7 @@ void Sintatico::comparaToken(int i){
 }
 
 void Sintatico::erroToken(){
-	cout << "ERRO SINTÁTICO" << endl;
+	cout << "ERRO SINTÁTICO. Linha: " << lexico.getLinha() << " Coluna: " << lexico.getColuna();
 	exit(1);
 }
 

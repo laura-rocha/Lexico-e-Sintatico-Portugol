@@ -424,3 +424,11 @@ void Lexico::incrementaLinha(){
 void Lexico::incrementaColuna(){
 	coluna += 1;
 }
+
+int Lexico::getColuna(){
+	return coluna;
+}
+
+int Lexico::getLinha(){
+	return linha;
+}

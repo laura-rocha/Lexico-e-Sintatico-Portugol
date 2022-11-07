@@ -13,3 +13,4 @@ Inicio
     leia(a); //Leitura da variavel
     imprima(a); //Impressao do conteudo da variavel
 Fim.
+
