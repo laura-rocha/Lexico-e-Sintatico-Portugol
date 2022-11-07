@@ -1,33 +1,39 @@
 #nome do projeto
 PROJETO = portugol
 
-#arquivos .c
+#arquivos .cpp
 ARQUIVOS_CPP = $(wildcard *.cpp)
 
-#arquivos .h
-ARQUIVOS_H = $(wildcard *.h)
+#arquivos .hpp
+ARQUIVOS_HPP = $(wildcard *.hpp)
 
 #gera a lista de arquivos-objeto usando a lista de arquivos-fonte
 OBJ = $(ARQUIVOS_CPP:.cpp=.o)
 
-#compilador
-CC = gcc
-
 #flags para o compilador
-FLAGS = -Wall -ansi -pedantic -std=c99 -fstack-protector-all -g
+FLAGS = -Wall -ansi -pedantic -std=c++11 -fstack-protector-all -g
 
 #ligação com as bibliotecas
 LINKER_FLAGS = -lm
+
+#compilador
+CC = g++
 
 #linking e compilaçao
 
 all: $(PROJETO)
 
-$(PROJETO): 
-	g++ -o $(PROJETO) $(PROJETO).cpp
+$(PROJETO): $(OBJ)
+	$(CC) -o $@ $^ $(FLAGS) $(LINKER_FLAGS)
+
+%.o: %.cpp %.hpp
+	$(CC) -o $@ $< -c $(FLAGS) $(LINKER_FLAGS)
+
+main.o: main.cpp $(ARQUIVOS_HPP)
+	$(CC) -o $@ $< -c $(FLAGS)
 
 clean:
-	rm -rf *.o $(PROJETO)
+	rm -rf *.o $(PROJETO) *~
 
-run: $(PROJETO) teste.por
+run: $(PROJETO)
 	./$(PROJETO) < teste.por

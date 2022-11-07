@@ -1,4 +1,4 @@
-la #ra
+lara
 {
         O proximo comando possui
         um erro lexico no parametro
