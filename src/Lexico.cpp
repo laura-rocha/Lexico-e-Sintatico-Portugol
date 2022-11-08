@@ -215,7 +215,7 @@ int Lexico::getToken(string entrada){
 			return -1;
 		if(i == static_cast<int>(entrada.size())){
 			if(ultimoEstadoFinal != 0){ //foi identificado um token até o caractere anterior
-                tokenAnterior = tokens[indiceEstadoFinal(ultimoEstadoFinal)];
+                atualizaTokenAnterior(entrada);
 				token = codigoToken(ultimoEstadoFinal);
 				i++;
 			}
@@ -260,7 +260,7 @@ int Lexico::getToken(string entrada){
 
 		if(posic == -1 || c == ' '){ //caractere atual não pertence ao alfabeto
 			if(ultimoEstadoFinal != 0){ //foi identificado um token até então
-				tokenAnterior = tokens[indiceEstadoFinal(ultimoEstadoFinal)];
+				atualizaTokenAnterior(entrada);
 				token = codigoToken(ultimoEstadoFinal);
 				resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 				break;
@@ -270,7 +270,7 @@ int Lexico::getToken(string entrada){
 					cout << "ERRO LEXICO. Linha: " << linha << " Coluna: " << coluna;
                     return -1;
 				}
-                tokenAnterior = tokens[indiceEstadoFinal(ultimoEstadoFinal)];
+                atualizaTokenAnterior(entrada);
 				token = codigoToken(ultimoEstadoFinal);
 				if(c == '\n')
 					incrementaLinha();
@@ -285,7 +285,7 @@ int Lexico::getToken(string entrada){
 			estadoAtual = transicoes[estadoAtual][posic]; //calculando novo estado
 			if(estadoAtual == 0){ //novo estado é inválido
 				if(ultimoEstadoFinal != 0){ //foi identificado um token até o caractere anterior
-					tokenAnterior = tokens[indiceEstadoFinal(ultimoEstadoFinal)];
+					atualizaTokenAnterior(entrada);
 					token = codigoToken(ultimoEstadoFinal);
 					resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 					break;
@@ -434,6 +434,14 @@ int Lexico::getColuna(){
 
 int Lexico::getLinha(){
 	return linha;
+}
+
+void Lexico::atualizaTokenAnterior(string entrada){
+	int j;
+	tokenAnterior = "";
+	for(j = inicioToken; j < fimToken+1; j++){
+		tokenAnterior = tokenAnterior + entrada[j];
+	}
 }
 
 string Lexico::getTokenAnterior(){
