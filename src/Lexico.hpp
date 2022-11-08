@@ -80,6 +80,7 @@ class Lexico{
         void incrementaColuna();
         int getColuna();
         int getLinha();
+        string getTokenAnterior();
 };
 
 #endif /* CLASSE_LEXICO */

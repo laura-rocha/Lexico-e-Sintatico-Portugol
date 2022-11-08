@@ -7,6 +7,7 @@ int estadoAtual = 1;
 int fimToken = 0;
 int ultimoEstadoFinal = 0;
 int i = 0;
+string tokenAnterior;
 
 int linha = 1;
 int coluna = 1;
@@ -214,7 +215,8 @@ int Lexico::getToken(string entrada){
 			return -1;
 		if(i == static_cast<int>(entrada.size())){
 			if(ultimoEstadoFinal != 0){ //foi identificado um token até o caractere anterior
-                token = codigoToken(ultimoEstadoFinal);
+                tokenAnterior = tokens[indiceEstadoFinal(ultimoEstadoFinal)];
+				token = codigoToken(ultimoEstadoFinal);
 				i++;
 			}
 			else{
@@ -258,6 +260,7 @@ int Lexico::getToken(string entrada){
 
 		if(posic == -1 || c == ' '){ //caractere atual não pertence ao alfabeto
 			if(ultimoEstadoFinal != 0){ //foi identificado um token até então
+				tokenAnterior = tokens[indiceEstadoFinal(ultimoEstadoFinal)];
 				token = codigoToken(ultimoEstadoFinal);
 				resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 				break;
@@ -267,7 +270,8 @@ int Lexico::getToken(string entrada){
 					cout << "ERRO LEXICO. Linha: " << linha << " Coluna: " << coluna;
                     return -1;
 				}
-                token = codigoToken(ultimoEstadoFinal);
+                tokenAnterior = tokens[indiceEstadoFinal(ultimoEstadoFinal)];
+				token = codigoToken(ultimoEstadoFinal);
 				if(c == '\n')
 					incrementaLinha();
 				else
@@ -281,6 +285,7 @@ int Lexico::getToken(string entrada){
 			estadoAtual = transicoes[estadoAtual][posic]; //calculando novo estado
 			if(estadoAtual == 0){ //novo estado é inválido
 				if(ultimoEstadoFinal != 0){ //foi identificado um token até o caractere anterior
+					tokenAnterior = tokens[indiceEstadoFinal(ultimoEstadoFinal)];
 					token = codigoToken(ultimoEstadoFinal);
 					resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 					break;
@@ -340,7 +345,6 @@ int Lexico::indiceEstadoFinal(int estado){ //retorna -1 se o estado não é fina
 }
 
 int Lexico::codigoToken(int i){
-
     switch (i){
         case 0: return -2;
         case 1: return -2;
@@ -403,7 +407,6 @@ int Lexico::codigoToken(int i){
         case 32: return 42;
         case 11: return 17;
         case 81: return 5;
-
         default:
             return 0;
     }
@@ -431,4 +434,8 @@ int Lexico::getColuna(){
 
 int Lexico::getLinha(){
 	return linha;
+}
+
+string Lexico::getTokenAnterior(){
+	return tokenAnterior;
 }

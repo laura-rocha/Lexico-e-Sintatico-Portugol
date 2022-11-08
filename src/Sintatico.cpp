@@ -31,6 +31,7 @@ void Sintatico::comparaToken(int i){
 
 void Sintatico::erroToken(){
 	cout << "ERRO SINTÁTICO. Linha: " << lexico.getLinha() << " Coluna: " << lexico.getColuna();
+	cout << " -> " << lexico.getTokenAnterior();
 	exit(1);
 }
 
