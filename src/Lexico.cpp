@@ -221,15 +221,14 @@ int Lexico::getToken(string entrada){
 			}
 			else{
 				if(estadoAtual != 1){
-					cout << "ERRO LEXICO. Linha: " << linha << " Coluna: " << coluna;
 					if(c == '\n')
 						incrementaLinha();
 					else
 						incrementaColuna();
-					i = inicioToken + 1;
-					resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
+					cout << "ERRO LEXICO. Linha: " << linha << " Coluna: " << coluna;
+					cout << " -> '" << c << "'";
 				}
-				return -1;
+				exit(1);
 			}
 			break;
 		}
@@ -266,16 +265,17 @@ int Lexico::getToken(string entrada){
 				break;
 			}
 			else{ //erro
-				if(c != ' ' && c != '\n'){
-					cout << "ERRO LEXICO. Linha: " << linha << " Coluna: " << coluna;
-                    return -1;
-				}
-                atualizaTokenAnterior(entrada);
-				token = codigoToken(ultimoEstadoFinal);
 				if(c == '\n')
 					incrementaLinha();
 				else
 					incrementaColuna();
+				if(c != ' ' && c != '\n'){
+					cout << "ERRO LEXICO. Linha: " << linha << " Coluna: " << coluna;
+					cout << " -> '" << c << "'";
+                    exit(1);
+				}
+                atualizaTokenAnterior(entrada);
+				token = codigoToken(ultimoEstadoFinal);
 				i = inicioToken + 1;
 				resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
 				break;
@@ -291,14 +291,13 @@ int Lexico::getToken(string entrada){
 					break;
 				}
 				else{ //erro
-					cout << "ERRO LEXICO. Linha: " << linha << " Coluna: " << coluna;
 					if(c == '\n')
 						incrementaLinha();
 					else
 						incrementaColuna();
-					i = inicioToken + 1;
-					resetaEstados(&i, &inicioToken, &fimToken, &estadoAtual, &ultimoEstadoFinal);
-					return -1;
+					cout << "ERRO LEXICO. Linha: " << linha << " Coluna: " << coluna;
+					cout << " -> '" << c << "'";
+					exit(1);
 				}
 			}
 			else{ //novo estado é válido
