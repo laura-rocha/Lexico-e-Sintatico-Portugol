@@ -213,6 +213,7 @@ int Lexico::getToken(string entrada){
         
         if(i > static_cast<int>(entrada.size()))
 			return -1;
+
 		if(i == static_cast<int>(entrada.size())){
 			if(ultimoEstadoFinal != 0){ //foi identificado um token até o caractere anterior
                 atualizaTokenAnterior(entrada);
@@ -227,8 +228,10 @@ int Lexico::getToken(string entrada){
 						incrementaColuna();
 					cout << "ERRO LEXICO. Linha: " << linha << " Coluna: " << coluna;
 					cout << " -> '" << c << "'";
+					exit(1);
 				}
-				exit(1);
+				else
+					return -1;
 			}
 			break;
 		}
@@ -315,7 +318,6 @@ int Lexico::getToken(string entrada){
 			
 		i++;
     }
-
     return token;
 }
 
