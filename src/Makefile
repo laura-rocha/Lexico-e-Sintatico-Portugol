@@ -31,3 +31,6 @@ $(PROJETO): $(OBJ)
 
 clean:
 	rm -rf *.o $(PROJETO) *~
+	rm saida.txt
+run:
+	./$(PROJETO) < teste.por > saida.txt
