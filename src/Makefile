@@ -29,11 +29,18 @@ $(PROJETO): $(OBJ)
 %.o: %.cpp %.hpp
 	$(CC) -o $@ $< -c $(FLAGS) $(LINKER_FLAGS)
 
-main.o: main.cpp $(ARQUIVOS_HPP)
-	$(CC) -o $@ $< -c $(FLAGS)
-
 clean:
 	rm -rf *.o $(PROJETO) *~
+	rm saidas/*.txt
 
 run: $(PROJETO)
-	./$(PROJETO) < teste.por
+	./$(PROJETO) < testes/teste_01.por > saidas/saida1.txt
+	./$(PROJETO) < testes/teste_02.por > saidas/saida2.txt
+	./$(PROJETO) < testes/teste_03.por > saidas/saida3.txt
+	./$(PROJETO) < testes/teste_04.por > saidas/saida4.txt
+	./$(PROJETO) < testes/teste_05.por > saidas/saida5.txt
+	./$(PROJETO) < testes/teste_06.por > saidas/saida6.txt
+	./$(PROJETO) < testes/teste_07.por > saidas/saida7.txt
+	./$(PROJETO) < testes/teste_08.por > saidas/saida8.txt
+	./$(PROJETO) < testes/teste_09.por > saidas/saida9.txt
+	./$(PROJETO) < testes/teste_10.por > saidas/saida10.txt
