@@ -45,14 +45,14 @@ void Sintatico::Programa(){
 			ProcedimentoFuncao();
 			BlocoComandos();
 			comparaToken(PONTO);
-			comparaToken(-1); //verificar erro
+			comparaToken(-1); 
 			break; 
 		default:
 			erroToken();
 	}
 }
 
-void Sintatico::BlocoVariaveis(){ //Expressão é nullable
+void Sintatico::BlocoVariaveis(){ //Nullable
 	switch (getLastToken()){
 		case VARIAVEIS:
 			comparaToken(VARIAVEIS);
@@ -69,7 +69,7 @@ void Sintatico::BlocoVariaveis(){ //Expressão é nullable
 	}
 } 
 
-void Sintatico::Parametros(){ //Expressão é nullable
+void Sintatico::Parametros(){ //Nullable
 	switch(getLastToken()){
 		case ABRE_PARENTESES:
 			comparaToken(ABRE_PARENTESES);
@@ -96,7 +96,7 @@ void Sintatico::Variavel(){
 	}
 } 
 
-void Sintatico::ExprIt(){ // Expressão é nullable
+void Sintatico::ExprIt(){ //Nullable
 	switch(getLastToken()){
 		case VIRGULA:
 			comparaToken(VIRGULA);
@@ -111,7 +111,7 @@ void Sintatico::ExprIt(){ // Expressão é nullable
 	}
 } 
 
-void Sintatico::Var(){ // Expressão é nullable
+void Sintatico::Var(){ //Nullable
 	switch (getLastToken()) {
 		case ABRE_COLCHETES:
 			comparaToken(ABRE_COLCHETES);
@@ -142,7 +142,7 @@ void Sintatico::Com2(){
 	}
 } 
 
-void Sintatico::Exp2(){ // Expressão é nullable
+void Sintatico::Exp2(){ //Nullable
 	switch(getLastToken()){
 		case MAIS:
 			comparaToken(MAIS);
@@ -192,7 +192,7 @@ void Sintatico::Exp2(){ // Expressão é nullable
 	}
 } 
 
-void Sintatico::Exp(){ // Expressão é nullable
+void Sintatico::Exp(){ //Nullable
 	switch(getLastToken()){
 		case DIFERENTE:
 			comparaToken(DIFERENTE);
@@ -270,7 +270,7 @@ void Sintatico::BlocoComandos(){
 	}
 } 
 
-void Sintatico::DecId(){ // Expressão é nullable
+void Sintatico::DecId(){ //Nullable
 	switch(getLastToken()){
 		case VIRGULA:
 			comparaToken(VIRGULA);
@@ -285,7 +285,7 @@ void Sintatico::DecId(){ // Expressão é nullable
 	}
 } 
 
-void Sintatico::Dec(){ // Expressão é nullable
+void Sintatico::Dec(){ //Nullable
 	switch (getLastToken()) {
 		case CARACTERE:
 			comparaToken(CARACTERE);
@@ -347,7 +347,7 @@ void Sintatico::Dec(){ // Expressão é nullable
 	}
 } 
 
-void Sintatico::DeclaraParametros(){ // Expressão é nullable
+void Sintatico::DeclaraParametros(){ //Nullable
 	switch(getLastToken()){
 		case CARACTERE:
 			comparaToken(CARACTERE);
@@ -426,7 +426,7 @@ void Sintatico::Com3(){
 	}
 } 
 
-void Sintatico::Term(){ // Expressão é nullable
+void Sintatico::Term(){ //Nullable
 	switch(getLastToken()){
 		case DIV:
 			comparaToken(DIV);
@@ -755,7 +755,7 @@ void Sintatico::Declaracoes(){
 	}
 }  
 
-void Sintatico::ProcedimentoFuncao(){ // Expressão é nullable
+void Sintatico::ProcedimentoFuncao(){ //Nullable
 	switch(getLastToken()){
 		case FUNCAO:
 			comparaToken(FUNCAO);
@@ -788,7 +788,7 @@ void Sintatico::ProcedimentoFuncao(){ // Expressão é nullable
 	}
 } 
 
-void Sintatico::Fat(){ // Expressão é nullable
+void Sintatico::Fat(){ //Nullable
 	switch(getLastToken()){
 		case ABRE_COLCHETES:
 			comparaToken(ABRE_COLCHETES);
@@ -880,7 +880,7 @@ void Sintatico::DeclaraIdentificador(){
 	}
 } 
 
-void Sintatico::Dim(){ // Expressão é nullable
+void Sintatico::Dim(){ //Nullable
 	switch(getLastToken()){
 		case VIRGULA:
 			comparaToken(VIRGULA);
@@ -893,7 +893,7 @@ void Sintatico::Dim(){ // Expressão é nullable
 	}
 } 
 
-void Sintatico::List(){ // Expressão é nullable
+void Sintatico::List(){ //Nullable
 	switch(getLastToken()){
 		case ENQUANTO:
 			comparaToken(ENQUANTO);
